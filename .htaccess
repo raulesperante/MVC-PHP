@@ -1,0 +1,15 @@
+<ifModule mod_rewrite.c>
+# Activar rewrite
+RewriteEngine on
+ErrorDocument 404 http://localhost/proyecto-php-poo/error
+
+# No mostrar directorios ni ficheros
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+# '^' reemplaza todo el dominio
+# 1/2  equivale a index.php?controller=$1&action$2
+# dominio/1/2 equivale a dominio/index.php?controller=$1&action$2
+RewriteRule ^(.*)/(.*) index.php?controller=$1&action$2
+
+</ifModule>
