@@ -25,6 +25,12 @@ class Categoria{
         $this->nombre = $nombre;
     }
     
+    public function getOne(){
+        $query = "SELECT * FROM categorias WHERE id={$this->getId()};";
+        $categoria = $this->db->query($query);
+        return $categoria->fetch_object();
+    }
+    
     public function getAll(){
         $query = "SELECT * FROM categorias ORDER BY id DESC;";
         $categorias = $this->db->query($query);
@@ -40,7 +46,6 @@ class Categoria{
             $result = true;
         }
         return $result;
-        
     }
 
 }
