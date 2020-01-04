@@ -5,8 +5,10 @@ require_once 'models/producto.php';
 class CarritoController {
 
     public function index() {
-        echo 'Contralor Carrito, Accion Index';
-        var_dump($_SESSION['carrito']);
+        
+        $carrito = $_SESSION['carrito'];
+        
+        require_once 'views/carrito/index.php';
     }
 
     public function add() {
