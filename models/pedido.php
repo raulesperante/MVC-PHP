@@ -1,6 +1,7 @@
 <?php
 
-class Pedido{
+class Pedido {
+
     private $id;
     private $usuario_id;
     private $provincia;
@@ -10,13 +11,12 @@ class Pedido{
     private $estado;
     private $fecha;
     private $hora;
-    
     private $db;
-    
+
     public function __construct() {
         $this->db = Database::connect();
     }
-    
+
     function getId() {
         return $this->id;
     }
@@ -89,33 +89,52 @@ class Pedido{
         $this->hora = $hora;
     }
 
-        
-    public function getAll(){
+    public function getAll() {
         $query = "SELECT * FROM pedidos ORDER BY id DESC;";
         $producto = $this->db->query($query);
         return $producto;
     }
-    
-   
-    public function getOne(){
+
+    public function getOne() {
         $query = "SELECT * FROM pedidos WHERE id = {$this->getId()};";
         $productos = $this->db->query($query);
         return $productos->fetch_object();
     }
-    
-    public function save(){
-        
+
+    public function save() {
+
         $sql = "INSERT INTO pedidos VALUES(NULL, '{$this->getUsuario_id()}', '{$this->getProvincia()}',"
-        . " '{$this->getLocalidad()}', '{$this->getDireccion()}', {$this->getCoste()}, "
-        . "'confirm', CURDATE(), CURTIME());";
+                . " '{$this->getLocalidad()}', '{$this->getDireccion()}', {$this->getCoste()}, "
+                . "'confirm', CURDATE(), CURTIME());";
         $save = $this->db->query($sql);
-        
+
         $result = false;
-        if($save){
+        if ($save) {
             $result = true;
         }
         return $result;
     }
-    
-    
+
+    public function save_linea() {
+        $sql = "SELECT LAST_INSERT_ID() AS 'pedido';";
+        $query = $this->db->query($sql);
+        $pedido_id = $query->fetch_object()->pedido;
+        
+        // Pensar en transacciones como hay muchos insert
+        foreach ($_SESSION['carrito'] as $indice => $elemento){
+            $producto = $elemento['producto'];
+            
+            $insert = "INSERT INTO lineas_pedidos VALUES(NULL, "
+                    . "{$pedido_id}, {$producto->id}, {$elemento['unidades']});";
+                    
+            $save = $this->db->query($insert);
+        }
+        
+        $result = false;
+        if ($save) {
+            $result = true;
+        }
+        return $result;
+    }
+
 }
