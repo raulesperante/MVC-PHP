@@ -9,8 +9,8 @@
         <label for="provincia">Provincia</label>
         <input type="text" id="provincia" name="provincia" required>
 
-        <label for="ciudad">Ciudad</label>
-        <input type="text" id="ciudad" name="ciudad" required>
+        <label for="localidad">Localidad</label>
+        <input type="text" id="localidad" name="localidad" required>
 
         <label for="direccion">Dirección</label>
         <input type="text" id="direccion" name="direccion" required>
