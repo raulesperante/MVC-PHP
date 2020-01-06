@@ -6,7 +6,7 @@ class CarritoController {
 
     public function index() {
         
-        $carrito = $_SESSION['carrito'];
+        $carrito = isset($_SESSION['carrito']) ? $_SESSION['carrito'] : null;
         
         require_once 'views/carrito/index.php';
     }
