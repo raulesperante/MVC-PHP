@@ -26,7 +26,7 @@
     <img src="assets/img/camiseta.png" alt="camiseta"/>
     <h2>Camiseta Azul Ancha</h2>
     <p>30 euros</p>
-    <a href="<?=base_url?>carrito/add&id=<?=$product->id?>" class="button">Comprar</a>
+    <a href="<?=base_url?>carrito/add&id=<?=isset($product->id) ? $product->id : ''?>" class="button">Comprar</a>
 </div>
 
 </div>
