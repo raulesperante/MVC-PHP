@@ -1,18 +1,40 @@
 <h1>Detalle del pedido</h1>
 
+<?php 
+function setSelected($pedido, $status){
+    return $pedido->estado == $status ? 'selected' : '';
+}
+?>
+
 <?php if (isset($pedido)): ?>
+    <?php if (isset($_SESSION['admin'])): ?>
+        <h3>Cambiar estado del pedido</h3>
+        <form action="<?= base_url ?>pedido/estado" method="POST">
+            <input type="hidden" value="<?= $pedido->id ?>" name="pedido_id">
+            <select name="estado">
+                <option value="confirm" <?=setSelected($pedido, 'confirm')?>>Pendiente</option>
+                <option value="preparation" <?=setSelected($pedido, 'preparation')?>>En preparación</option>
+                <option value="ready" <?=setSelected($pedido, 'ready')?>>Preparado para enviar</option>
+                <option value="sended" <?=setSelected($pedido, 'sended')?>>Enviado</option>
+            </select>
+            <input type="submit" value="Cambiar estado">
+        </form>
+        <br>
+    <?php endif; ?>
+
     <h3>Dirección de envío</h3>
-    Provincia: <?=$pedido->provincia ?>
+    Provincia: <?= $pedido->provincia ?>
     <br>
-    Ciudad: <?=$pedido->localidad ?>
+    Ciudad: <?= $pedido->localidad ?>
     <br>
-    Dirección: <?=$pedido->direccion?>
+    Dirección: <?= $pedido->direccion ?>
     <br><br>
-    
+
     <h3>Datos del pedido: </h3>
-    Número de pedido: <?=$pedido->id ?>
+    Estado: <?= Utils::showStatus($pedido->estado) ?> <br>
+    Número de pedido: <?= $pedido->id ?>
     <br>
-    Total a pagar: $<?=$pedido->coste ?>
+    Total a pagar: $<?= $pedido->coste ?>
     <br>
     Productos:
     <table>

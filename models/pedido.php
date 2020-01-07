@@ -107,7 +107,7 @@ class Pedido {
         $pedido = $this->db->query($query);
         return $pedido->fetch_object();
     }
-    
+
     // Devuelve todos los pedidos de un usuario
     public function getAllByUser() {
         $query = "SELECT p.* FROM pedidos p "
@@ -116,15 +116,14 @@ class Pedido {
         return $pedido;
     }
 
-
     public function getProductosByPedido($id) {
         //$sql = "SELECT * FROM productos WHERE id IN (SELECT producto_id FROM lineas_pedidos "
-          //      . "WHERE pedido_id = {$id});";
-                
+        //      . "WHERE pedido_id = {$id});";
+
         $sql = "SELECT pr.*, lp.unidades FROM productos pr "
                 . "INNER JOIN lineas_pedidos lp ON pr.id = lp.producto_id "
                 . "WHERE lp.pedido_id = {$id};";
-                
+
 
         $productos = $this->db->query($sql);
         return $productos;
@@ -158,6 +157,21 @@ class Pedido {
 
             $save = $this->db->query($insert);
         }
+
+        $result = false;
+        if ($save) {
+            $result = true;
+        }
+        return $result;
+    }
+
+    public function edit() {
+
+        $sql = "UPDATE pedidos SET estado='{$this->getEstado()}'";
+
+        $sql .= " WHERE id={$this->getId()};";
+        
+        $save = $this->db->query($sql);
 
         $result = false;
         if ($save) {
