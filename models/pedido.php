@@ -107,6 +107,15 @@ class Pedido {
         $pedido = $this->db->query($query);
         return $pedido->fetch_object();
     }
+    
+    // Devuelve todos los pedidos de un usuario
+    public function getAllByUser() {
+        $query = "SELECT p.* FROM pedidos p "
+                . "WHERE p.usuario_id = {$this->getUsuario_id()} ORDER BY id DESC;";
+        $pedido = $this->db->query($query);
+        return $pedido;
+    }
+
 
     public function getProductosByPedido($id) {
         //$sql = "SELECT * FROM productos WHERE id IN (SELECT producto_id FROM lineas_pedidos "
